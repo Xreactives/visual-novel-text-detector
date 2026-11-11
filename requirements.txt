@@ -1,0 +1,10 @@
+#Python 3.12.10
+setuptools>=84.2.1
+wheel >= 0.48.0
+numpy>=2.2.6
+Pillow>=13.0.0
+opencv-python>= 5.0.0.93
+easyocr
+tqdm>=4.70.1
+label-studio>=1.23.2
+label-studio-converter>=0.0.59
