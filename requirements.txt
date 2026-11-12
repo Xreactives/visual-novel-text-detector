@@ -8,3 +8,5 @@ easyocr
 tqdm>=4.70.1
 label-studio>=1.23.2
 label-studio-converter>=0.0.59
+torch==2.6.0 #CUDA Version 12.4
+ultralytics>=8.4.211
