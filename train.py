@@ -25,19 +25,17 @@ def main():
         batch=16,            # Lower to 8 if you encounter CUDA Out-Of-Memory
         device=0,
         workers=4,           # Keeps Windows multiprocessing stable
-        name="vn_yolo26",
+        name="vn_yolo26n",
         patience=25,         # Stops early if validation accuracy plateaus
         mosaic=0.5,          # Reduced mosaic helps preserve visual novel UI layout structure
         fliplr=0.0,          # Disabled horizontal flip so text boxes stay realistic
     )
 
     # 4. Run final validation on best weights
-    best_weights = Path("runs/detect/vn_yolo26/weights/best.pt")
+    best_weights = Path("runs/detect/vn_yolo26s/weights/best.pt")
     best_model = YOLO(str(best_weights))
     metrics = best_model.val()
     print(f"Training complete. Best weights saved to: {best_weights}")
     print(f"Validation mAP50: {round(metrics.box.map50 * 100)}% | mAP50-95: {round(metrics.box.map * 100)}%")
-
-
 if __name__ == "__main__":
     main()

@@ -10,6 +10,7 @@ runs/
 
 # Pretrained Base Weights (auto-downloaded by Ultralytics)
 yolo26n.pt
+yolo26s.pt
 
 # Temporary Label Studio & Personal Notes
 *.json

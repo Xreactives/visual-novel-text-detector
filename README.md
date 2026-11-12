@@ -6,20 +6,20 @@ Real-time UI text region detector and optical character recognition (OCR) pipeli
 
 ## Key Features
 - **3-Class Visual Novel UI Detection**: Accurately distinguishes speaker nameplates (`character_name`), branching prompts (`choice_box`), and main text windows (`dialogue_box`).
-- **Low-Latency GPU Inference**: Runs at **1.8 ms inference** per frame (2.39M parameters, 5.4 GFLOPs) on an NVIDIA GeForce RTX 3060 Laptop GPU.
+- **Low-Latency GPU Inference**: Runs at **1.7 ms inference** per frame (2.39M parameters, 5.4 GFLOPs) on an NVIDIA GeForce RTX 3060 Laptop GPU.
 - **Targeted OCR Pipeline**: Crops detected UI containers and sorts them top-to-bottom prior to EasyOCR extraction so character sprites and background scenery never trigger false text reads.
 - **End-to-End Dataset Utilities**: Includes helper scripts for automated pre-labeling, Label Studio URL-decoding cleanup, and stratified train/validation splitting.
 
 ## Validation Benchmarks
 
-Trained and evaluated on **854 manually verified visual novel screenshots** (683 training / 171 validation) across multiple UI layouts and fonts:
+Trained and evaluated on **854 cleaned and manually verified visual novel screenshots** (683 training / 171 validation, 350 validation instances) across multiple UI layouts and fonts:
 
-| Class | Precision | Recall | mAP@50 | mAP@50-95 |
-| :--- | :---: | :---: | :---: | :---: |
-| **All Classes** | **99%** | **93%** | **96%** | **77%** |
-| `dialogue_box` | 100% | 99% | 99% | 81% |
-| `character_name` | 100% | 90% | 95% | 77% |
-| `choice_box` | 98% | 91% | 94% | 72% |
+| Class | Images | Instances | Precision | Recall | mAP@50 | mAP@50-95 |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **All Classes** | **171** | **350** | **100%** | **99%** | **99%** | **81%** |
+| `dialogue_box` | 164 | 249 | 100% | 100% | 100% | 83% |
+| `character_name` | 80 | 82 | 100% | 96% | 98% | 81% |
+| `choice_box` | 8 | 19 | 99% | 100% | 100% | 78% |
 
 ## Repository Structure
 
@@ -47,14 +47,16 @@ visual-novel-text-detector/
 
 1. **Clone the repository:**
 ```bash
-git clone [https://github.com/YOUR_USERNAME/visual-novel-text-detector.git](https://github.com/Xreactives/visual-novel-text-detector.git)
+git clone [https://github.com/Xreactives/visual-novel-text-detector.git](https://github.com/Xreactives/visual-novel-text-detector.git)
 cd visual-novel-text-detector
+
 ```
 
 
 2. **Install dependencies:**
 ```bash
 pip install -r requirements.txt
+
 ```
 
 
@@ -66,6 +68,7 @@ Run detection and text extraction on the included sample screenshot using the pr
 
 ```bash
 python detect_and_ocr.py --image assets/demo_input.png --weights weights/best.pt --save assets/demo_output.png
+
 ```
 
 ### CLI Options
@@ -97,6 +100,7 @@ for box in sorted(results.boxes, key=lambda b: float(b.xyxy[0][1])):
     crop = img[y1:y2, x1:x2]
     text = " ".join(reader.readtext(crop, detail=0, paragraph=True))
     print(f"[{label}]: {text}")
+
 ```
 
 ## Training From Scratch
@@ -105,7 +109,10 @@ for box in sorted(results.boxes, key=lambda b: float(b.xyxy[0][1])):
 2. Run the training pipeline (configured with horizontal flips disabled and reduced mosaic augmentation to preserve UI geometry):
 ```bash
 python train.py
+
 ```
+
+
 
 ## Tech Stack
 
